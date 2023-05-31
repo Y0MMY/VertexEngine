@@ -2,12 +2,7 @@
 
 #include <string>
 #include "Window.hpp"
-
-#define VERTEX_CREATE_APPLICATION(x) \
-	Vertex::Application* Vertex::CreateApplication() \
-	{ \
-		x \
-	};
+#include "Memory/Unique.hpp"
 
 namespace Vertex
 {
@@ -30,9 +25,15 @@ namespace Vertex
 		Application(const ApplicationSpecification& specification);
 		virtual void Run();
 
+		static inline Application& Get() { return *s_Instance; }
+		inline Window& GetWindow() { return *m_Window; }
+
 		virtual ~Application() {}
 	private:
-		Window* m_Window;
+		Unique<Window> m_Window;
+		bool m_Running;
+
+		static Application* s_Instance;
 	};
 	Application* CreateApplication();
 }

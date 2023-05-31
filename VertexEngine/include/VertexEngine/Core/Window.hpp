@@ -1,5 +1,7 @@
 #pragma once
-//#include <Platform/Windows/WindowsWindow.hpp>
+
+#include "Memory/Unique.hpp"
+#include "Renderer/RendererContext.hpp"
 
 namespace Vertex
 {
@@ -13,11 +15,17 @@ namespace Vertex
 	class Window
 	{
 	public:
-		Window(const WindowSpecification& specification)
-			: m_S(specification)
-		{
+		virtual ~Window() {}
 
-		}
-		WindowSpecification m_S; //NOTE: Tempory varibale while we dont have a platform realization
+		virtual size_t GetWidth() = 0;
+		virtual size_t GetHeight() = 0;	
+		virtual const std::string GetTitle() const = 0;
+		virtual Ref<RendererContext> GetRenderContext() = 0;
+
+		virtual void Init() = 0;
+
+		virtual void OnUpdate() = 0;
+
+		static Unique<Window> Create(const WindowSpecification& specification);
 	};
 }

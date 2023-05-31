@@ -11,3 +11,12 @@
 #if defined(VE_PLATFORM_WINDOWS)
 	#include <Windows.h>
 #endif
+
+// Core
+#include "Core/Core.hpp"
+#include "Core/Logger.hpp"
+#include "Memory/Unique.hpp"
+#include "Memory/Ref.hpp"
+
+// Renderer
+#include "Renderer/RendererContext.hpp"

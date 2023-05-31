@@ -37,3 +37,5 @@ build
 *.user
 *.filters
 *.sln
+vendor/GLFW/bin-int
+vendor/GLFW/bin/Debug-windows-x86_64

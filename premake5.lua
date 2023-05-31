@@ -1,3 +1,5 @@
+local VulkanSDKPath = os.getenv("VULKAN_SDK")
+
 workspace "VertexEngine"
 	architecture "x64"
 	targetdir "build"
@@ -9,6 +11,10 @@ workspace "VertexEngine"
     }
     
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+group "Dependencies"
+include "vendor/GLFW"
+group ""
 
 group "Core"
 project "VertexEngine"
@@ -39,11 +45,15 @@ project "VertexEngine"
 
 		"%{prj.name}/include/VertexEngine",
 		"%{prj.name}/Source/VertexEngine",
+
 		"vendor",
+		"vendor/GLFW/include",
+		VulkanSDKPath .. "/Include"
 	}
 
 	links
 	{
+		"GLFW"
 	}
     
 	filter "system:windows"
@@ -98,6 +108,8 @@ project "PlayVerse"
 		links 
 		{ 
 			"VertexEngine",
+			VulkanSDKPath .."/Lib/vulkan-1.lib",
+			VulkanSDKPath .. "/Lib/VkLayer_utils.lib",
 		}
         
 		defines 

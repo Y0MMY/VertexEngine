@@ -4,3 +4,5 @@
 // intended for connection to the sandbox. NEVER include it in the vertex engine itself
 
 #include "Core/Application.hpp"
+#include "Core/Core.hpp"
+#include "Core/Logger.hpp"
