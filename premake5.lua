@@ -14,6 +14,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 group "Dependencies"
 include "vendor/GLFW"
+include "vendor/Glad"
 group ""
 
 group "Core"
@@ -48,12 +49,14 @@ project "VertexEngine"
 
 		"vendor",
 		"vendor/GLFW/include",
+		"vendor/Glad/include",
 		VulkanSDKPath .. "/Include"
 	}
 
 	links
 	{
-		"GLFW"
+		"GLFW",
+		"Glad",
 	}
     
 	filter "system:windows"

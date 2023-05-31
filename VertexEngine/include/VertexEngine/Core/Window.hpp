@@ -26,6 +26,9 @@ namespace Vertex
 
 		virtual void OnUpdate() = 0;
 
+		virtual void Maximize() = 0;
+		virtual void CenterWindow() = 0;
+
 		static Unique<Window> Create(const WindowSpecification& specification);
 	};
 }

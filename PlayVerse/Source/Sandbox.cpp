@@ -11,6 +11,15 @@ namespace Sandbox
 		{
 
 		}
+		void OnInit() override
+		{
+			Vertex::Renderer::SetFloat4(Vertex::CommandFloat4Targets::SetBackgroundColor, {0.2f, 0.3f, 0.1f, 1.0f});
+		}
+		void OnUpdate() override
+		{
+			
+		}
+		
 	};
 
 }

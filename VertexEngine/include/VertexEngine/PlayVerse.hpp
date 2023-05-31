@@ -6,3 +6,9 @@
 #include "Core/Application.hpp"
 #include "Core/Core.hpp"
 #include "Core/Logger.hpp"
+#include "Memory/Buffer.hpp"
+
+// Renderer
+#include "Renderer/IndexBuffer.hpp"
+#include "Renderer/VertexBuffer.hpp"
+#include "Renderer/Renderer.hpp"

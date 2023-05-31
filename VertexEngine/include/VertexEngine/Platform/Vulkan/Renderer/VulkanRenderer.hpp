@@ -11,5 +11,7 @@ namespace Vertex
 
 		virtual void BeginFrame() override;
 		virtual void EndFrame() override;
+
+		virtual void SetFloat4(CommandFloat4Targets command, Vector4<float> vec) override {}
 	};
 }

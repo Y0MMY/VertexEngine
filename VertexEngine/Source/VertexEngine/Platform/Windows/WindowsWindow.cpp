@@ -30,7 +30,6 @@ namespace Vertex
 			s_GLFWInitialized = true;
 		}
 		m_Window = glfwCreateWindow((int)m_Specification.WindowWidth, (int)m_Specification.WindowHeight, m_Specification.Title.c_str(), nullptr, nullptr);
-		glfwMakeContextCurrent(m_Window);
 
 		if (RendererAPI::Current() == RendererAPIType::Vulkan)
 			glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -50,5 +49,18 @@ namespace Vertex
 	{
 		glfwDestroyWindow(m_Window);
 		glfwTerminate();
+	}
+
+	void WindowsWindow::Maximize()
+	{
+		glfwMaximizeWindow(m_Window);
+	}
+
+	void WindowsWindow::CenterWindow()
+	{
+		const GLFWvidmode* videmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		int x = (videmode->width / 2) - (m_Specification.WindowWidth/ 2);
+		int y = (videmode->height / 2) - (m_Specification.WindowHeight / 2);
+		glfwSetWindowPos(m_Window, x, y);
 	}
 }

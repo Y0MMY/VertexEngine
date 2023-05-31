@@ -2,7 +2,7 @@
 
 #include <string>
 #include "Window.hpp"
-#include "Memory/Unique.hpp"
+#include "Core/Core.hpp"
 
 namespace Vertex
 {
@@ -10,6 +10,16 @@ namespace Vertex
 	{
 		std::string Name = "";
 		uint32_t WindowWidth = 1600, WindowHeight = 900;
+		uint32_t LoadFlags = 1;
+
+		enum ApplicationLoadFlags
+		{
+			None = BIT(0),
+			WindowDecorated = BIT(1),
+			StartMaximized = BIT(2),
+			WindowResizeble = BIT(3),
+			EnableImGui = BIT(4)
+		};
 
 		enum class ApplicationMode
 		{
@@ -23,7 +33,9 @@ namespace Vertex
 	{
 	public:
 		Application(const ApplicationSpecification& specification);
-		virtual void Run();
+		void Run();
+		virtual void OnUpdate() = 0;
+		virtual void OnInit() {}
 
 		static inline Application& Get() { return *s_Instance; }
 		inline Window& GetWindow() { return *m_Window; }

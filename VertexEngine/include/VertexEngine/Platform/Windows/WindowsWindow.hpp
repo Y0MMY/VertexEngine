@@ -16,6 +16,9 @@ namespace Vertex
 		virtual size_t GetHeight() override { return m_Specification.WindowHeight; }
 		virtual const std::string GetTitle() const override { return m_Specification.Title; }
 		virtual Ref<RendererContext> GetRenderContext() override { return m_RendererContext; }
+		
+		virtual void Maximize() override;
+		virtual void CenterWindow() override;
 
 		virtual void Init() override;
 

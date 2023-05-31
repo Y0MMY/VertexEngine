@@ -17,6 +17,7 @@
 #include "Core/Logger.hpp"
 #include "Memory/Unique.hpp"
 #include "Memory/Ref.hpp"
+#include "Memory/Buffer.hpp"
 
 // Renderer
 #include "Renderer/RendererContext.hpp"

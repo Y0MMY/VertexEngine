@@ -1,18 +1,20 @@
 #include "pch.hpp"
 #include <Renderer/Renderer.hpp>
 #include <Platform/Vulkan/Renderer/VulkanRenderer.hpp>
-
-#include <Renderer/RendererAPI.hpp>
+#include <Platform/OpenGL/OpenGLRenderer.hpp>
 
 namespace Vertex
 {
 	static RendererAPI* s_RendererAPI = nullptr;
 
+	RenderCommandQueue* s_CommandQueue = nullptr;
+
 	static RendererAPI* InitRendererAPI()
 	{
 		switch (RendererAPI::Current())
 		{
-		case RendererAPIType::Vulkan: return new VulkanRenderer();
+			case RendererAPIType::Vulkan: return new VulkanRenderer();
+			case RendererAPIType::OpenGL: return new OpenGLRenderer();
 		}
 		VE_CORE_ASSERT(false, "Unknown RendererAPI");
 		return nullptr;
@@ -21,6 +23,7 @@ namespace Vertex
 
 	void Renderer::Init()
 	{
+		s_CommandQueue = new RenderCommandQueue();
 		s_RendererAPI = InitRendererAPI();
 		s_RendererAPI->Init();
 	}
@@ -34,5 +37,26 @@ namespace Vertex
 	{
 		s_RendererAPI->EndFrame();
 
+	}
+
+	void Renderer::SetFloat4(CommandFloat4Targets command, Vector4<float> vec)
+	{
+		s_RendererAPI->SetFloat4(command, vec);
+	}
+
+	void RendererAPI::SetAPI(RendererAPIType api)
+	{
+		// TODO: make sure this is called at a valid time
+		s_CurrentRendererAPI = api;
+	}
+
+	RenderCommandQueue& Renderer::GetRenderCommandQueue()
+	{
+		return *s_CommandQueue;
+	}
+
+	void Renderer::WaitAndRender()
+	{
+		s_CommandQueue->Execute();
 	}
 }
