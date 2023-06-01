@@ -4,6 +4,7 @@
 #include "Renderer/RendererContext.hpp"
 #include "Memory/RenderCommandQueue.hpp"
 #include "Renderer/RendererAPI.hpp"
+#include "Renderer2D/Renderer2D.hpp"
 
 namespace Vertex
 {
@@ -21,6 +22,10 @@ namespace Vertex
 
 		static void BeginFrame();
 		static void EndFrame();
+		static void BeginRenderPass(Ref<RenderPass> renderPass, bool clear);
+		static void EndRenderPass();
+		static void DrawIndexed(uint32_t count, PrimitiveType type, bool depthTest);
+
 		template<typename FuncT>
 		static void Submit(FuncT&& func)
 		{

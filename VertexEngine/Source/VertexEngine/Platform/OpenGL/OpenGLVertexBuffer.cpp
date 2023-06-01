@@ -5,30 +5,29 @@
 
 namespace Vertex
 {
-	static GLenum OpenGLUsage(VertexBufferUsage usage)
-	{
-		switch (usage)
+	namespace Utils {
+		static GLenum OpenGLUsage(VertexBufferUsage usage)
 		{
-		case VertexBufferUsage::Static:    return GL_STATIC_DRAW;
-		case VertexBufferUsage::Dynamic:   return GL_DYNAMIC_DRAW;
+			switch (usage)
+			{
+			case VertexBufferUsage::Static:    return GL_STATIC_DRAW;
+			case VertexBufferUsage::Dynamic:   return GL_DYNAMIC_DRAW;
+			}
+			VE_CORE_ASSERT(false, "Unknown vertex buffer usage");
+			return 0;
 		}
-		VE_CORE_ASSERT(false, "Unknown vertex buffer usage");
-		return 0;
 	}
-
 	OpenGLVertexBuffer::OpenGLVertexBuffer(void* data, u32 size, VertexBufferUsage usage)
 		: m_Size(size)
 	{
 		m_LocalData = Buffer::Copy(data, size);
-		Renderer::Submit([this]() mutable
+		Ref<OpenGLVertexBuffer> instance = this;
+		Renderer::Submit([instance, usage]() mutable
 			{
-				glGenBuffers(1, &m_RendererID);
+				glGenBuffers(1, &instance->m_RendererID);
 
-				glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-				glBufferData(GL_ARRAY_BUFFER, m_LocalData.Size, m_LocalData.Data, GL_STATIC_DRAW);
-
-				glEnableVertexAttribArray(0);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+				glBindBuffer(GL_ARRAY_BUFFER, instance->m_RendererID);
+				glBufferData(GL_ARRAY_BUFFER, instance->m_LocalData.Size, instance->m_LocalData.Data, Utils::OpenGLUsage(usage));
 			}
 		);
 	}
@@ -36,27 +35,31 @@ namespace Vertex
 	OpenGLVertexBuffer::OpenGLVertexBuffer(u32 size, VertexBufferUsage usage)
 		: m_Size(size)
 	{
-		Renderer::Submit([this]() mutable
+		Ref<OpenGLVertexBuffer> instance = this;
+		Renderer::Submit([instance]() mutable
 			{
-				glGenBuffers(1, &m_RendererID);
+				glGenBuffers(1, &instance->m_RendererID);
 			}
 		);
 	}
 
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
-		Renderer::Submit([this]() mutable
+		Ref<OpenGLVertexBuffer> instance = this;
+		Renderer::Submit([instance]() mutable
 			{
-				glDeleteBuffers(1, &m_RendererID);
+				glDeleteBuffers(1, &instance->m_RendererID);
 			}
 		);
 	}
 
 	void OpenGLVertexBuffer::Bind() const {
 
-		Renderer::Submit([this]() mutable
+		Ref<const OpenGLVertexBuffer> instance = this;
+		Renderer::Submit([instance]() mutable
 			{
-				glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+				glBindBuffer(GL_ARRAY_BUFFER, instance->m_RendererID);
+
 			}
 		);
 
@@ -67,13 +70,11 @@ namespace Vertex
 		m_LocalData = Buffer::Copy(data, size);
 		m_Size = size;
 
-		Renderer::Submit([this]() mutable
+		Ref<OpenGLVertexBuffer> instance = this;
+		Renderer::Submit([instance]() mutable
 			{
-				glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-				glBufferData(GL_ARRAY_BUFFER, m_LocalData.Size, m_LocalData.Data, GL_STATIC_DRAW);
-
-				glEnableVertexAttribArray(0);
-				glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+				glBindBuffer(GL_ARRAY_BUFFER, instance->m_RendererID);
+				glBufferData(GL_ARRAY_BUFFER, instance->m_LocalData.Size, instance->m_LocalData.Data, GL_STATIC_DRAW);
 			}
 		);
 	}

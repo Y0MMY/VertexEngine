@@ -26,6 +26,7 @@ namespace Vertex
 		s_CommandQueue = new RenderCommandQueue();
 		s_RendererAPI = InitRendererAPI();
 		s_RendererAPI->Init();
+		Renderer2D::Init();
 	}
 
 	void Renderer::BeginFrame()
@@ -39,9 +40,9 @@ namespace Vertex
 
 	}
 
-	void Renderer::SetFloat4(CommandFloat4Targets command, Vector4<float> vec)
+	void Renderer::SetFloat4(CommandFloat4Targets command, Vector4<float> parameters)
 	{
-		s_RendererAPI->SetFloat4(command, vec);
+		s_RendererAPI->SetFloat4(command, parameters);
 	}
 
 	void RendererAPI::SetAPI(RendererAPIType api)
@@ -59,4 +60,20 @@ namespace Vertex
 	{
 		s_CommandQueue->Execute();
 	}
+
+	void Renderer::BeginRenderPass(Ref<RenderPass> renderPass, bool clear)
+	{
+		s_RendererAPI->BeginRenderPass(renderPass);
+	}
+
+	void Renderer::EndRenderPass()
+	{
+		s_RendererAPI->EndRenderPass();
+	}
+
+	void Renderer::DrawIndexed(uint32_t count, PrimitiveType type, bool depthTest)
+	{
+		s_RendererAPI->DrawIndexed(count, type, depthTest);
+	}
+
 }

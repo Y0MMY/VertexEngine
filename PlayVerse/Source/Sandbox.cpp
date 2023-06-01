@@ -17,7 +17,9 @@ namespace Sandbox
 		}
 		void OnUpdate() override
 		{
-			
+			Vertex::Renderer2D::BeginScene();
+			Vertex::Renderer2D::DrawLine({0.1, 0.2, 0.1}, {1.,1.,1.});
+			Vertex::Renderer2D::EndScene();
 		}
 		
 	};

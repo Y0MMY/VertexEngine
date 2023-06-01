@@ -11,4 +11,10 @@
 // Renderer
 #include "Renderer/IndexBuffer.hpp"
 #include "Renderer/VertexBuffer.hpp"
+#include "Renderer/Pipeline.hpp"
 #include "Renderer/Renderer.hpp"
+#include "Renderer/Renderer2D/Renderer2D.hpp"
+#include "Renderer/Shader.hpp"
+
+// Utilities
+#include "Utilities/FileSystem.hpp"
